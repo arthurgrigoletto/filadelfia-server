@@ -4,11 +4,13 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany,
 } from 'typeorm';
 
-import { Expose } from 'class-transformer';
+import { Expose, Exclude } from 'class-transformer';
 
 import uploadConfig from '@config/upload';
+import Book from './Book';
 
 @Entity('authors')
 class Author {
@@ -18,12 +20,18 @@ class Author {
   @Column()
   name: string;
 
+  @Exclude()
   @Column()
   avatar: string;
 
+  @ManyToMany(() => Book, book => book.authors)
+  books: Book[];
+
+  @Expose({ groups: ['authors'] })
   @CreateDateColumn()
   created_at: Date;
 
+  @Expose({ groups: ['authors'] })
   @UpdateDateColumn()
   updated_at: Date;
 

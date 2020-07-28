@@ -20,7 +20,8 @@ export default class ListBookService {
   public async execute({ user_id }: IRequest): Promise<Book[]> {
     const cacheKey = `books-list:${user_id}`;
 
-    let books = await this.cacheProvider.recover<Book[]>(cacheKey);
+    let books;
+    // let books = await this.cacheProvider.recover<Book[]>(cacheKey);
 
     if (!books) {
       books = await this.booksRepository.find();

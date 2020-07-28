@@ -4,7 +4,7 @@ import IAuthorRepository from '@modules/books/repositories/IAuthorRepository';
 
 import Author from '../entities/Author';
 
-class BooksRepository implements IAuthorRepository {
+class AuthorsRepository implements IAuthorRepository {
   private ormRepository: Repository<Author>;
 
   constructor() {
@@ -12,25 +12,34 @@ class BooksRepository implements IAuthorRepository {
   }
 
   public async find(): Promise<Author[]> {
-    const authors = await this.ormRepository.find();
+    const authors = await this.ormRepository.find({
+      relations: ['books'],
+    });
 
     return authors;
   }
 
   public async findById(id: string): Promise<Author | undefined> {
-    const author = await this.ormRepository.findOne(id);
+    const author = await this.ormRepository.findOne(id, {
+      relations: ['books'],
+    });
 
     return author;
   }
 
   public async findByIds(ids: string[]): Promise<Author[]> {
-    const authors = await this.ormRepository.findByIds(ids);
+    const authors = await this.ormRepository.findByIds(ids, {
+      relations: ['books'],
+    });
 
     return authors;
   }
 
   public async findByName(name: string): Promise<Author | undefined> {
-    const author = await this.ormRepository.findOne({ where: { name } });
+    const author = await this.ormRepository.findOne({
+      where: { name },
+      relations: ['books'],
+    });
 
     return author;
   }
@@ -50,4 +59,4 @@ class BooksRepository implements IAuthorRepository {
   }
 }
 
-export default BooksRepository;
+export default AuthorsRepository;

@@ -5,13 +5,15 @@ import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICa
 import Book from '../infra/typeorm/entities/Book';
 import IBooksRepository from '../repositories/IBooksRepository';
 import IAuthorRepository from '../repositories/IAuthorRepository';
+import ICategoryRepository from '../repositories/ICategoryRepository';
+import IPublisherRepository from '../repositories/IPublisherRepository';
 
 interface IRequest {
   title: string;
   description: string;
-  authors_id: string[];
-  category: string;
-  publisher: string;
+  author_ids: string[];
+  category_ids: string[];
+  publisher_id: string;
   year: number;
   pages: number;
   language: string;
@@ -24,17 +26,23 @@ export default class CreateBookService {
 
     @inject('AuthorRepository') private authorsRepository: IAuthorRepository,
 
+    @inject('PublisherRepository')
+    private publisherRepository: IPublisherRepository,
+
+    @inject('CategoryRepository')
+    private categoriesRepository: ICategoryRepository,
+
     @inject('CacheProvider')
     private cacheProvider: ICacheProvider,
   ) {}
 
   public async execute({
-    authors_id,
-    category,
+    author_ids,
+    category_ids,
     description,
     language,
     pages,
-    publisher,
+    publisher_id,
     title,
     year,
   }: IRequest): Promise<Book> {
@@ -44,11 +52,25 @@ export default class CreateBookService {
       throw new AppError('Title already used to another book');
     }
 
-    const authors = await this.authorsRepository.findByIds(authors_id);
+    const authors = await this.authorsRepository.findByIds(author_ids);
+    const categories = await this.categoriesRepository.findByIds(category_ids);
+    const publisher = await this.publisherRepository.findById(publisher_id);
+
+    if (!authors.length) {
+      throw new AppError('Found no Author with id');
+    }
+
+    if (!categories.length) {
+      throw new AppError('Found no Category with id');
+    }
+
+    if (!publisher) {
+      throw new AppError('Found no Publisher with id');
+    }
 
     const book = await this.booksRepository.create({
       authors,
-      category,
+      categories,
       description,
       language,
       pages,
@@ -58,6 +80,8 @@ export default class CreateBookService {
     });
 
     await this.cacheProvider.invalidatePrefix('books-list');
+    await this.cacheProvider.invalidatePrefix('authors-list');
+    await this.cacheProvider.invalidatePrefix('categories-list');
 
     return book;
   }

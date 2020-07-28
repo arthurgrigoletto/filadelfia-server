@@ -14,27 +14,32 @@ class BooksRepository implements IBooksRepository {
 
   public async find(): Promise<Book[]> {
     const books = await this.ormRepository.find({
-      relations: ['authors'],
+      relations: ['authors', 'categories', 'publisher'],
     });
 
     return books;
   }
 
   public async findById(id: string): Promise<Book | undefined> {
-    const book = await this.ormRepository.findOne(id);
+    const book = await this.ormRepository.findOne(id, {
+      relations: ['authors', 'categories', 'publisher'],
+    });
 
     return book;
   }
 
   public async findByTitle(title: string): Promise<Book | undefined> {
-    const book = await this.ormRepository.findOne({ where: { title } });
+    const book = await this.ormRepository.findOne({
+      where: { title },
+      relations: ['authors', 'categories', 'publisher'],
+    });
 
     return book;
   }
 
   public async create({
     authors,
-    category,
+    categories,
     description,
     language,
     pages,
@@ -44,13 +49,13 @@ class BooksRepository implements IBooksRepository {
   }: ICreateBookDTO): Promise<Book> {
     const book = this.ormRepository.create({
       authors,
-      category,
+      categories,
       language,
       description,
       pages,
-      publisher,
       title,
       year,
+      publisher,
     });
 
     await this.ormRepository.save(book);

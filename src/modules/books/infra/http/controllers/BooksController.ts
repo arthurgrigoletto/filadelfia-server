@@ -7,7 +7,7 @@ import ListBookService from '@modules/books/services/ListBookService';
 import CreateBookService from '@modules/books/services/CreateBookService';
 import UpdateBookService from '@modules/books/services/UpdateBookService';
 
-export default class BooksControllers {
+export default class BooksController {
   public async index(request: Request, response: Response): Promise<Response> {
     const user_id = request.user.id;
 
@@ -17,17 +17,17 @@ export default class BooksControllers {
       user_id,
     });
 
-    return response.json(books);
+    return response.json(classToClass(books, { groups: ['books'] }));
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
     const {
       title,
       description,
-      authors,
-      category,
+      author_ids,
+      category_ids,
       language,
-      publisher,
+      publisher_id,
       year,
       pages,
     } = request.body;
@@ -35,17 +35,17 @@ export default class BooksControllers {
     const createBook = container.resolve(CreateBookService);
 
     const book = await createBook.execute({
-      authors_id: authors,
-      category,
+      author_ids,
+      category_ids,
       description,
       language,
       pages,
-      publisher,
+      publisher_id,
       title,
       year,
     });
 
-    return response.json(classToClass(book));
+    return response.json(classToClass(book, { groups: ['books'] }));
   }
 
   public async update(request: Request, response: Response): Promise<Response> {

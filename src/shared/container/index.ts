@@ -18,6 +18,12 @@ import BooksRepository from '@modules/books/infra/typeorm/repositories/BooksRepo
 import IAuthorRepository from '@modules/books/repositories/IAuthorRepository';
 import AuthorRepository from '@modules/books/infra/typeorm/repositories/AuthorRepository';
 
+import ICategoryRepository from '@modules/books/repositories/ICategoryRepository';
+import CategoryRepository from '@modules/books/infra/typeorm/repositories/CategoryRepository';
+
+import IPublisherRepository from '@modules/books/repositories/IPublisherRepository';
+import PublisherRepository from '@modules/books/infra/typeorm/repositories/PublisherRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -41,4 +47,14 @@ container.registerSingleton<IBooksRepository>(
 container.registerSingleton<IAuthorRepository>(
   'AuthorRepository',
   AuthorRepository,
+);
+
+container.registerSingleton<ICategoryRepository>(
+  'CategoryRepository',
+  CategoryRepository,
+);
+
+container.registerSingleton<IPublisherRepository>(
+  'PublisherRepository',
+  PublisherRepository,
 );

@@ -40,7 +40,7 @@ class App {
   }
 
   private exceptionHandler(): void {
-    this.server.use(errors);
+    this.server.use(errors());
 
     this.server.use(
       (err: Error, request: Request, response: Response, _: NextFunction) => {

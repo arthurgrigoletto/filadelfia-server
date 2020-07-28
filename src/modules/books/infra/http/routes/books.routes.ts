@@ -24,18 +24,18 @@ bookRouter.get(
 
 bookRouter.post(
   '/',
-  celebrate({
-    [Segments.BODY]: {
-      title: Joi.string().required(),
-      description: Joi.string().required(),
-      authors: Joi.array().items(Joi.string().uuid()).required(),
-      category: Joi.string().required(),
-      language: Joi.string().required(),
-      publisher: Joi.string().required(),
-      year: Joi.number().required(),
-      pages: Joi.number().required(),
-    },
-  }),
+  // celebrate({
+  //   [Segments.BODY]: {
+  //     title: Joi.string().required(),
+  //     description: Joi.string().required(),
+  //     authors: Joi.array().items(Joi.string().uuid()).required(),
+  //     category: Joi.string().required(),
+  //     language: Joi.string().required(),
+  //     publisher: Joi.string().required(),
+  //     year: Joi.number().required(),
+  //     pages: Joi.number().required(),
+  //   },
+  // }),
   booksController.create,
 );
 
