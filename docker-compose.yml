@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres-fila
+    restart: always
+    tty: true
+    volumes:
+      - .pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=filadmin
+      - POSTGRES_DATABASE=filadelfia
+      - POSTGRES_USER=filadelfia
+      - POSTGRES_PORT=5432
+    ports:
+      - "5432:5432"
+  redis:
+    image: redis:5.0.6-alpine
+    container_name: redis-fila
+    restart: always
+    tty: true
+    ports:
+      - "6379:6379"
+  mongo:
+    image: mongo
+    container_name: mongo-fila
+    restart: always
+    tty: true
+    ports:
+      - "27017:27017"
