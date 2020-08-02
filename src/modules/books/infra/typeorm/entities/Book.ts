@@ -13,9 +13,9 @@ import {
 import { Expose, Exclude } from 'class-transformer';
 
 import uploadConfig from '@config/upload';
-import Author from './Author';
-import Category from './Category';
-import Publisher from './Publisher';
+import Author from '@modules/authors/infra/typeorm/entities/Author';
+import Category from '@modules/categories/infra/typeorm/entities/Category';
+import Publisher from '@modules/publishers/infra/typeorm/entities/Publisher';
 
 @Entity('books')
 class Book {

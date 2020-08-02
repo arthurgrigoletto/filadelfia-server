@@ -5,9 +5,9 @@ import sessionsRouter from '@modules/users/infra/http/routes/sessions.routes';
 import passwordRouter from '@modules/users/infra/http/routes/password.routes';
 import profileRouter from '@modules/users/infra/http/routes/profile.routes';
 import bookRouter from '@modules/books/infra/http/routes/books.routes';
-import authorRouter from '@modules/books/infra/http/routes/author.routes';
-import categoryRouter from '@modules/books/infra/http/routes/category.routes';
-import publisherRouter from '@modules/books/infra/http/routes/publisher.routes';
+import authorRouter from '@modules/authors/infra/http/routes/author.routes';
+import categoryRouter from '@modules/categories/infra/http/routes/category.routes';
+import publisherRouter from '@modules/publishers/infra/http/routes/publisher.routes';
 
 const routes = Router();
 

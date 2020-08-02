@@ -2,11 +2,11 @@ import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
-import Book from '../infra/typeorm/entities/Book';
+import IAuthorRepository from '@modules/authors/repositories/IAuthorRepository';
+import ICategoryRepository from '@modules/categories/repositories/ICategoryRepository';
+import IPublisherRepository from '@modules/publishers/repositories/IPublisherRepository';
 import IBooksRepository from '../repositories/IBooksRepository';
-import IAuthorRepository from '../repositories/IAuthorRepository';
-import ICategoryRepository from '../repositories/ICategoryRepository';
-import IPublisherRepository from '../repositories/IPublisherRepository';
+import Book from '../infra/typeorm/entities/Book';
 
 interface IRequest {
   title: string;

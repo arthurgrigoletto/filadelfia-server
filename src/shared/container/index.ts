@@ -15,14 +15,14 @@ import NotificationsRepository from '@modules/notifications/infra/typeorm/reposi
 import IBooksRepository from '@modules/books/repositories/IBooksRepository';
 import BooksRepository from '@modules/books/infra/typeorm/repositories/BooksRepository';
 
-import IAuthorRepository from '@modules/books/repositories/IAuthorRepository';
-import AuthorRepository from '@modules/books/infra/typeorm/repositories/AuthorRepository';
+import IAuthorRepository from '@modules/authors/repositories/IAuthorRepository';
+import AuthorRepository from '@modules/authors/infra/typeorm/repositories/AuthorRepository';
 
-import ICategoryRepository from '@modules/books/repositories/ICategoryRepository';
-import CategoryRepository from '@modules/books/infra/typeorm/repositories/CategoryRepository';
+import ICategoryRepository from '@modules/categories/repositories/ICategoryRepository';
+import CategoryRepository from '@modules/categories/infra/typeorm/repositories/CategoryRepository';
 
-import IPublisherRepository from '@modules/books/repositories/IPublisherRepository';
-import PublisherRepository from '@modules/books/infra/typeorm/repositories/PublisherRepository';
+import IPublisherRepository from '@modules/publishers/repositories/IPublisherRepository';
+import PublisherRepository from '@modules/publishers/infra/typeorm/repositories/PublisherRepository';
 
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',

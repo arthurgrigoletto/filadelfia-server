@@ -2,9 +2,9 @@ import { inject, injectable } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
+import IAuthorRepository from '@modules/authors/repositories/IAuthorRepository';
 import Book from '../infra/typeorm/entities/Book';
 import IBooksRepository from '../repositories/IBooksRepository';
-import IAuthorRepository from '../repositories/IAuthorRepository';
 
 interface IRequest {
   book_id: string;
