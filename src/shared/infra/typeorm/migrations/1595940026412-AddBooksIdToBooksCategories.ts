@@ -24,7 +24,7 @@ export default class AddBooksIdToBooksCategories1595940026412
         columnNames: ['book_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'books',
-        onDelete: 'SET NULL',
+        onDelete: 'CASCADE',
       }),
     );
   }

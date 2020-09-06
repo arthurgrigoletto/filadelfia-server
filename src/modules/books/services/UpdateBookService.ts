@@ -3,6 +3,8 @@ import { inject, injectable } from 'tsyringe';
 import AppError from '@shared/errors/AppError';
 import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 import IAuthorRepository from '@modules/authors/repositories/IAuthorRepository';
+import IPublisherRepository from '@modules/publishers/repositories/IPublisherRepository';
+import ICategoryRepository from '@modules/categories/repositories/ICategoryRepository';
 import Book from '../infra/typeorm/entities/Book';
 import IBooksRepository from '../repositories/IBooksRepository';
 
@@ -10,9 +12,9 @@ interface IRequest {
   book_id: string;
   title: string;
   description: string;
-  authors_id: string[];
-  category: string;
-  publisher: string;
+  author_ids: string[];
+  category_ids: string[];
+  publisher_id: string;
   year: number;
   pages: number;
   language: string;
@@ -25,18 +27,24 @@ export default class CreateBookService {
 
     @inject('AuthorRepository') private authorsRepository: IAuthorRepository,
 
+    @inject('PublisherRepository')
+    private publisherRepository: IPublisherRepository,
+
+    @inject('CategoryRepository')
+    private categoriesRepository: ICategoryRepository,
+
     @inject('CacheProvider')
     private cacheProvider: ICacheProvider,
   ) {}
 
   public async execute({
     book_id,
-    authors_id,
-    category,
+    author_ids,
+    category_ids,
     description,
     language,
     pages,
-    publisher,
+    publisher_id,
     title,
     year,
   }: IRequest): Promise<Book> {
@@ -46,10 +54,16 @@ export default class CreateBookService {
       throw new AppError('Book not found');
     }
 
-    const authors = await this.authorsRepository.findByIds(authors_id);
+    const authors = await this.authorsRepository.findByIds(author_ids);
+    const categories = await this.categoriesRepository.findByIds(category_ids);
+    const publisher = await this.publisherRepository.findById(publisher_id);
+
+    if (!publisher) {
+      throw new AppError('Publisher not Found');
+    }
 
     book.authors = authors;
-    book.category = category;
+    book.categories = categories;
     book.description = description;
     book.language = language;
     book.pages = pages;

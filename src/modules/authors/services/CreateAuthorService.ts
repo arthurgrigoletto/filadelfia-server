@@ -7,6 +7,7 @@ import IAuthorRepository from '../repositories/IAuthorRepository';
 
 interface IRequest {
   name: string;
+  avatarFileName: string;
 }
 
 @injectable()
@@ -18,7 +19,7 @@ export default class CreateAuthorService {
     private cacheProvider: ICacheProvider,
   ) {}
 
-  public async execute({ name }: IRequest): Promise<Author> {
+  public async execute(name: string): Promise<Author> {
     const findAuthor = await this.authorsRepository.findByName(name);
 
     if (findAuthor) {

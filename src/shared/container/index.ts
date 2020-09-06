@@ -24,6 +24,9 @@ import CategoryRepository from '@modules/categories/infra/typeorm/repositories/C
 import IPublisherRepository from '@modules/publishers/repositories/IPublisherRepository';
 import PublisherRepository from '@modules/publishers/infra/typeorm/repositories/PublisherRepository';
 
+import IStockRepository from '@modules/stock/repositories/IStockRepository';
+import StockRepository from '@modules/stock/infra/typeorm/repositories/StockRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -57,4 +60,9 @@ container.registerSingleton<ICategoryRepository>(
 container.registerSingleton<IPublisherRepository>(
   'PublisherRepository',
   PublisherRepository,
+);
+
+container.registerSingleton<IStockRepository>(
+  'StockRepository',
+  StockRepository,
 );

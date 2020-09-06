@@ -1,11 +1,13 @@
 import AppError from '@shared/errors/AppError';
 import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
+import FakeStorageProvider from '@shared/container/providers/StorageProvider/fakes/FakeStorageProvider';
 
 import DeleteAuthorService from './DeleteAuthorService';
 import FakeAuthorRepository from '../repositories/fakes/FakeAuthorRepository';
 
 let fakeAuthorsRepository: FakeAuthorRepository;
 let fakeCacheProvider: FakeCacheProvider;
+let fakeStorageProvider: FakeStorageProvider;
 let deleteAuthor: DeleteAuthorService;
 
 describe('DeleteAuthor', () => {
@@ -16,6 +18,7 @@ describe('DeleteAuthor', () => {
     deleteAuthor = new DeleteAuthorService(
       fakeAuthorsRepository,
       fakeCacheProvider,
+      fakeStorageProvider,
     );
   });
 

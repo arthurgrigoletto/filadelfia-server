@@ -24,13 +24,13 @@ export default class AddAuthorIdToBooksAuthors1595939755285
         columnNames: ['author_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'authors',
-        onDelete: 'SET NULL',
+        onDelete: 'CASCADE',
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropForeignKey('books_authors', 'BooksAuthorsAuthor');
-    await queryRunner.dropColumn('books_authors', 'book_id');
+    await queryRunner.dropColumn('books_authors', 'author_id');
   }
 }

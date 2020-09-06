@@ -24,7 +24,7 @@ export default class AddBooksIdToBooksAuthor1595939728100
         columnNames: ['book_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'books',
-        onDelete: 'SET NULL',
+        onDelete: 'CASCADE',
       }),
     );
   }

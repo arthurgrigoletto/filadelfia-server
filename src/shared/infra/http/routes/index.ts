@@ -8,6 +8,7 @@ import bookRouter from '@modules/books/infra/http/routes/books.routes';
 import authorRouter from '@modules/authors/infra/http/routes/author.routes';
 import categoryRouter from '@modules/categories/infra/http/routes/category.routes';
 import publisherRouter from '@modules/publishers/infra/http/routes/publisher.routes';
+import stockRouter from '@modules/stock/infra/http/routes/stock.routes';
 
 const routes = Router();
 
@@ -19,5 +20,6 @@ routes.use('/books', bookRouter);
 routes.use('/authors', authorRouter);
 routes.use('/categories', categoryRouter);
 routes.use('/publishers', publisherRouter);
+routes.use('/stock', stockRouter);
 
 export default routes;

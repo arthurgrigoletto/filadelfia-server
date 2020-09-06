@@ -59,7 +59,7 @@ class Book {
     joinColumn: { name: 'book_id' },
     inverseJoinColumn: { name: 'category_id' },
   })
-  categories: Author[];
+  categories: Category[];
 
   @ManyToOne(() => Publisher, publisher => publisher.books)
   @JoinColumn({ name: 'publisher_id' })

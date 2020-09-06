@@ -20,20 +20,16 @@ describe('CreateAuthors', () => {
   });
 
   it('should be able to create an author', async () => {
-    const author = await createAuthor.execute({ name: 'teste' });
+    const author = await createAuthor.execute('teste');
 
     expect(author).toHaveProperty('id');
   });
 
   it('should not be able to create a book with same title', async () => {
-    await createAuthor.execute({
-      name: 'teste-name',
-    });
+    await createAuthor.execute('teste-name');
 
-    await expect(
-      createAuthor.execute({
-        name: 'teste-name',
-      }),
-    ).rejects.toBeInstanceOf(AppError);
+    await expect(createAuthor.execute('teste-name')).rejects.toBeInstanceOf(
+      AppError,
+    );
   });
 });

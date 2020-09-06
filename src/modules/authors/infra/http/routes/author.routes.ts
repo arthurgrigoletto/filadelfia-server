@@ -1,37 +1,53 @@
 import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
+import multer from 'multer';
 
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
+import uploadConfig from '@config/upload';
 import AuthorController from '../controllers/AuthorController';
+import AuthorAvatarController from '../controllers/AuthorAvatarController';
 
-const bookRouter = Router();
-const booksController = new AuthorController();
+const authorRouter = Router();
+const upload = multer(uploadConfig.multer);
+const authorsController = new AuthorController();
+const authorsAvatarController = new AuthorAvatarController();
 
-bookRouter.use(ensureAuthenticated);
+authorRouter.use(ensureAuthenticated);
 
-bookRouter.get('/', booksController.index);
+authorRouter.get('/', authorsController.index);
 
-bookRouter.get(
+authorRouter.get(
   '/:author_id',
   celebrate({
     [Segments.PARAMS]: {
       author_id: Joi.string().uuid(),
     },
   }),
-  booksController.show,
+  authorsController.show,
 );
 
-bookRouter.post(
+authorRouter.post(
   '/',
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
     },
   }),
-  booksController.create,
+  authorsController.create,
 );
 
-bookRouter.put(
+authorRouter.patch(
+  '/:author_id/avatar',
+  celebrate({
+    [Segments.PARAMS]: {
+      author_id: Joi.string().required(),
+    },
+  }),
+  upload.single('avatar'),
+  authorsAvatarController.update,
+);
+
+authorRouter.put(
   '/:author_id',
   celebrate({
     [Segments.PARAMS]: {
@@ -41,17 +57,17 @@ bookRouter.put(
       name: Joi.string().required(),
     },
   }),
-  booksController.update,
+  authorsController.update,
 );
 
-bookRouter.delete(
+authorRouter.delete(
   '/:author_id',
   celebrate({
     [Segments.PARAMS]: {
       author_id: Joi.string().uuid(),
     },
   }),
-  booksController.delete,
+  authorsController.delete,
 );
 
-export default bookRouter;
+export default authorRouter;

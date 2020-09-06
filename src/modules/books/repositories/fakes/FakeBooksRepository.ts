@@ -3,25 +3,12 @@ import { uuid } from 'uuidv4';
 import IBooksRepository from '@modules/books/repositories/IBooksRepository';
 import ICreateBookDTO from '@modules/books/dtos/ICreateBookDTO';
 import Book from '@modules/books/infra/typeorm/entities/Book';
-import IFindAllBooksDTO from '@modules/books/dtos/IFindAllBooksDTO';
-
-import keys from '@shared/infra/http/helpers/KeysTypeHelper';
 
 class FakeUsersRepository implements IBooksRepository {
   private books: Book[] = [];
 
-  public async find(options: IFindAllBooksDTO): Promise<Book[]> {
-    const { where } = options;
-
-    const books = this.books.filter(book => {
-      if (!where) {
-        return true;
-      }
-
-      return keys(where).every(queryKey => where[queryKey] === book[queryKey]);
-    });
-
-    return books;
+  public async find(): Promise<Book[]> {
+    return this.books;
   }
 
   public async findById(id: string): Promise<Book | undefined> {

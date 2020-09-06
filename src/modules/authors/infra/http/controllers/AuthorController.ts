@@ -37,9 +37,7 @@ export default class AuthorController {
 
     const createAuthor = container.resolve(CreateAuthorService);
 
-    const author = await createAuthor.execute({
-      name,
-    });
+    const author = await createAuthor.execute(name);
 
     return response.json(classToClass(author, { groups: ['authors'] }));
   }

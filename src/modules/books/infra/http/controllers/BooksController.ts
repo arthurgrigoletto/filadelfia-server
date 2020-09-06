@@ -30,6 +30,7 @@ export default class BooksController {
       publisher_id,
       year,
       pages,
+      quantity,
     } = request.body;
 
     const createBook = container.resolve(CreateBookService);
@@ -43,9 +44,10 @@ export default class BooksController {
       publisher_id,
       title,
       year,
+      quantity,
     });
 
-    return response.json(classToClass(book, { groups: ['books'] }));
+    return response.json(classToClass(book));
   }
 
   public async update(request: Request, response: Response): Promise<Response> {

@@ -1,7 +1,7 @@
 import { uuid } from 'uuidv4';
 
-import IAuthorRepository from '@modules/books/repositories/IAuthorRepository';
-import Author from '@modules/books/infra/typeorm/entities/Author';
+import IAuthorRepository from '@modules/authors/repositories/IAuthorRepository';
+import Author from '@modules/authors/infra/typeorm/entities/Author';
 
 class FakeUsersRepository implements IAuthorRepository {
   private authors: Author[] = [];

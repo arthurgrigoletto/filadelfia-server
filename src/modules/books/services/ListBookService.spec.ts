@@ -1,11 +1,15 @@
 import FakeCacheProvider from '@shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
+import FakeAuthorRepository from '@modules/authors/repositories/fakes/FakeAuthorRepository';
+import FakePublisherRepository from '@modules/publishers/repositories/fakes/FakePublisherRepository';
+import FakeCategoryRepository from '@modules/categories/repositories/fakes/FakeCategoryRepository';
 
 import ListBookService from './ListBookService';
 import FakeBooksRepository from '../repositories/fakes/FakeBooksRepository';
-import FakeAuthorRepository from '../repositories/fakes/FakeAuthorRepository';
 
 let fakeBooksRepository: FakeBooksRepository;
 let fakeAuthorsRepository: FakeAuthorRepository;
+let fakePublisherRepository: FakePublisherRepository;
+let fakeCategoryRepository: FakeCategoryRepository;
 let fakeCacheProvider: FakeCacheProvider;
 let listBooks: ListBookService;
 
@@ -14,33 +18,37 @@ describe('CreateBooks', () => {
     fakeBooksRepository = new FakeBooksRepository();
     fakeAuthorsRepository = new FakeAuthorRepository();
     fakeCacheProvider = new FakeCacheProvider();
+    fakePublisherRepository = new FakePublisherRepository();
+    fakeCategoryRepository = new FakeCategoryRepository();
 
     listBooks = new ListBookService(fakeBooksRepository, fakeCacheProvider);
   });
 
   it('should be able to list all books', async () => {
-    const author = await fakeAuthorsRepository.create('teste');
+    const author = await fakeAuthorsRepository.create('teste-author');
+    const publisher = await fakePublisherRepository.create('teste-publisher');
+    const category = await fakeCategoryRepository.create('teste-category');
 
     const book1 = await fakeBooksRepository.create({
       title: 'teste-title',
       description: 'teste-description',
       authors: [author],
-      category: 'teste-category',
+      categories: [category],
       language: 'teste-language',
       pages: 100,
       year: 2020,
-      publisher: 'teste-publisher',
+      publisher,
     });
 
     const book2 = await fakeBooksRepository.create({
       title: 'teste-title2',
       description: 'teste-description',
       authors: [author],
-      category: 'teste-category',
+      categories: [category],
       language: 'teste-language',
       pages: 100,
       year: 2020,
-      publisher: 'teste-publisher',
+      publisher,
     });
 
     const books = await listBooks.execute({
@@ -51,28 +59,30 @@ describe('CreateBooks', () => {
   });
 
   it('should be able to filter list of books', async () => {
-    const author = await fakeAuthorsRepository.create('teste');
+    const author = await fakeAuthorsRepository.create('teste-author');
+    const publisher = await fakePublisherRepository.create('teste-publisher');
+    const category = await fakeCategoryRepository.create('teste-category');
 
     await fakeBooksRepository.create({
       title: 'teste-title',
       description: 'teste-description',
       authors: [author],
-      category: 'teste-category',
+      categories: [category],
       language: 'teste-language',
       pages: 100,
       year: 2020,
-      publisher: 'teste-publisher',
+      publisher,
     });
 
     const book2 = await fakeBooksRepository.create({
       title: 'teste-title2',
       description: 'teste-description',
       authors: [author],
-      category: 'teste-category',
+      categories: [category],
       language: 'teste-language',
       pages: 100,
       year: 2020,
-      publisher: 'teste-publisher',
+      publisher,
     });
 
     const books = await listBooks.execute({

@@ -5,6 +5,7 @@ import ICacheProvider from '@shared/container/providers/CacheProvider/models/ICa
 import IAuthorRepository from '@modules/authors/repositories/IAuthorRepository';
 import ICategoryRepository from '@modules/categories/repositories/ICategoryRepository';
 import IPublisherRepository from '@modules/publishers/repositories/IPublisherRepository';
+import IStockRepository from '@modules/stock/repositories/IStockRepository';
 import IBooksRepository from '../repositories/IBooksRepository';
 import Book from '../infra/typeorm/entities/Book';
 
@@ -16,6 +17,7 @@ interface IRequest {
   publisher_id: string;
   year: number;
   pages: number;
+  quantity?: number;
   language: string;
 }
 
@@ -25,6 +27,9 @@ export default class CreateBookService {
     @inject('BooksRepository') private booksRepository: IBooksRepository,
 
     @inject('AuthorRepository') private authorsRepository: IAuthorRepository,
+
+    @inject('StockRepository')
+    private stockRepository: IStockRepository,
 
     @inject('PublisherRepository')
     private publisherRepository: IPublisherRepository,
@@ -45,6 +50,7 @@ export default class CreateBookService {
     publisher_id,
     title,
     year,
+    quantity,
   }: IRequest): Promise<Book> {
     const checkBookExists = await this.booksRepository.findByTitle(title);
 
@@ -78,6 +84,8 @@ export default class CreateBookService {
       title,
       year,
     });
+
+    await this.stockRepository.create(book.id, quantity);
 
     await this.cacheProvider.invalidatePrefix('books-list');
     await this.cacheProvider.invalidatePrefix('authors-list');
